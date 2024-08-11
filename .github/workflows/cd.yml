@@ -21,10 +21,14 @@ jobs:
       - name: build
         run: ./scripts/buildprod.sh
 
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
       - name: setup google cloud
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
           version: '>= 363.0.0'
 
       - name: build image and push to google artifact repository
