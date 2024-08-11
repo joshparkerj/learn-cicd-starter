@@ -20,3 +20,12 @@ jobs:
 
       - name: build
         run: ./scripts/buildprod.sh
+
+      - name: setup google cloud
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          version: '>= 363.0.0'
+
+      - name: build image and push to google artifact repository
+        run: gcloud builds submit --default-buckets-behavior=regional-user-owned-bucket --tag us-central1-docker.pkg.dev/notely-432123/notely-ar-repo/notely:latest .
